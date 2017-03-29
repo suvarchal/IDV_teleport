@@ -160,5 +160,4 @@ for start,end,center in zip(startdates,enddates,centerdates):
         subprocess.call([os.path.join(idv,"runIDV"),"-islinteractive","-noerrorsingui",wtf.name])
 
     except:
-        raise
-    exit()
+        pass
