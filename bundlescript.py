@@ -69,7 +69,6 @@ def showImgWithFullWindow(width=None,height=None):
                   <pause/>
                   <jython code="exit()"/>
                   </isl>"""%(BundleFile,timeStart,timeEnd,ULLat,ULLon,LRLat,LRLon,caseName,caseName,screencapture)
-    print XidvString
     return XidvString
     
 def parseDateTime(datetimelist,timedelta,parser):
