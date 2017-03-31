@@ -97,7 +97,7 @@ def parseDateTime(datetimelist,timedelta,parser):
                 timeS=timeC-dt
                 timeE=timeC+dt
             startdates.append(timeS.strftime('%Y-%m-%d %H:%M:%S'))
-            enddates.append(timeS.strftime('%Y-%m-%d %H:%M:%S'))
+            enddates.append(timeE.strftime('%Y-%m-%d %H:%M:%S'))
             centerdates.append(timeC.strftime('%Y-%m-%d-%H-%M-%S'))
         except:
             ignorelist.append(time.strip())
