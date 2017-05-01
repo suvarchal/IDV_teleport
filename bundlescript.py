@@ -39,8 +39,12 @@ def showImgWithFullWindow(width=None,height=None):
                   <pause/>
                   <pause seconds="40"/>
                   <pause/>
+<displayproperties display="class:ucar.unidata.idv.control.ContourPlanViewControl">
+<property name="DisplayAreaSubset" value="true"/>
+</displayproperties>
                   <image file="%s1.png"/>
-                  <save file="%s.xidv"/>
+                  <movie file="%s.gif"/>
+                  <save file="%s.zidv"/>
                   <pause/>
                   <jython><![CDATA[
                   %s
@@ -50,15 +54,19 @@ def showImgWithFullWindow(width=None,height=None):
                   <jython code="showImgWithFullWindow()"/>
                   <pause/>
                   <jython code="exit()"/>
-                  </isl>"""%(BundleFile,timeStart,timeEnd,caseName,caseName,screencapture)
+                  </isl>"""%(BundleFile,timeStart,timeEnd,caseName,caseName,caseName,screencapture)
     else:
         XidvString="""<isl> 
                   <bundle file="%s" timedriverstart="%s" timedriverend="%s" bbox="%s,%s,%s,%s"/>
                   <pause/>
                   <pause seconds="40"/>
                   <pause/>
+<displayproperties display="class:ucar.unidata.idv.control.ColorPlanViewControl">
+<property name="DisplayAreaSubset" value="true"/>
+</displayproperties>
                   <image file="%s1.png"/>
-                  <save file="%s.xidv"/>
+                  <movie file="%s.gif"/>
+                  <save file="%s.zidv"/>
                   <pause/>
                   <jython><![CDATA[
                   %s
@@ -68,7 +76,7 @@ def showImgWithFullWindow(width=None,height=None):
                   <jython code="showImgWithFullWindow()"/>
                   <pause/>
                   <jython code="exit()"/>
-                  </isl>"""%(BundleFile,timeStart,timeEnd,ULLat,ULLon,LRLat,LRLon,caseName,caseName,screencapture)
+                  </isl>"""%(BundleFile,timeStart,timeEnd,ULLat,ULLon,LRLat,LRLon,caseName,caseName,caseName,screencapture)
     return XidvString
     
 def parseDateTime(datetimelist,timedelta,parser):
@@ -89,7 +97,7 @@ def parseDateTime(datetimelist,timedelta,parser):
     for time in datetimelist:
         try:
 	    if len(time.strip())>10:
-                timeC=datetime.datetime(int(time[0:4]),int(time[5:7]),int(time[8:10]),int(time[11-13]),int(time[14-16]),int(time[17-19]))
+                timeC=datetime.datetime(int(time[0:4]),int(time[5:7]),int(time[8:10]),int(time[11:13]),int(time[14:16]),int(time[17:19]))
                 timeS=timeC-dt
                 timeE=timeC+dt
             else:
@@ -132,7 +140,7 @@ except:
 if os.path.isfile(args.time):
     datelist=parseDateTimeFile(args.time)
 else:
-    datelist=[args.time]
+    datelist=[str.join(' ',args.time.split('_'))]
 
 startdates,enddates,centerdates,ignorelist=parseDateTime(datelist,args.timedelta,parser)
 
@@ -144,9 +152,9 @@ else:
 bundle=args.bundle[0]
 for start,end,center in zip(startdates,enddates,centerdates):
     if args.case_name:
-        case_name=os.path.join(output_directory,args.case_name[0]+center)
+        case_name=os.path.join(output_directory,args.case_name[0]+'_'+center)
     else:
-        case_name=os.path.join(output_directory,os.path.split(bundle)[-1].split('.')[0]+center)
+        case_name=os.path.join(output_directory,os.path.split(bundle)[-1].split('.')[0]+'_'+center)
     if args.boundingbox:
         isl=islString(bundle,start,end,case_name,args.boundingbox[0],args.boundingbox[1],args.boundingbox[2],args.boundingbox[3])
     else:
