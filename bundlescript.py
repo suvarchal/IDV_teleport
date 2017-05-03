@@ -120,10 +120,13 @@ import sys
 import subprocess
 
 parser = argparse.ArgumentParser(description='Script to make time composite of IDV Bundles.',epilog="Simplest use case:python script.py -t timefile -b templatebundlefile")
-parser.add_argument('-t','--time',type=str,help='Input time as YYYY-MM-DD or a text file with times one per line also optionally with hh:mm:ss',required=True)
+
 parser.add_argument('-b','--bundle',nargs='+',help='IDV Bundle template file local or remote', required=True)
-parser.add_argument('-td','--timedelta',help='Time delta as Nseconds, Ndays, Nweeks ...; output bundle will be centered around +- timedelta; default is 0seconds',default="0seconds",required=False)
 parser.add_argument('-bbox','--boundingbox',nargs=4,type=float,help='Set the bounding box of the bundle with boundaries north, west, south, east',metavar=("NORTH","WEST","SOUTH","EAST"))
+
+parser.add_argument('-t','--time',type=str,help='Input time as YYYY-MM-DD or a text file with times one per line also optionally with hh:mm:ss',required=True)
+parser.add_argument('-td','--timedelta',help='Time delta as Nseconds, Ndays, Nweeks ...; output bundle will be centered around +- timedelta; default is 0seconds',default="0seconds",required=False)
+
 parser.add_argument('-case','--case_name',type=str,nargs='+',help='Case name to prefix the bundle; by default case name will be selected from bundle file',required=False)
 parser.add_argument('-outdir','--output_directory',type=os.path.isdir,help='Set the output path to place the output;default is current directory from where the script is run',required=False)
 parser.add_argument('-d','--debug',choices=("True","False"),default="False",help='Debug option; for each time in timefile IDV session will ONLY close manually',required=False)
