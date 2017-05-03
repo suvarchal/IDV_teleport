@@ -35,8 +35,8 @@ Optional arguments:
                              Output bundle will be centered (TIME +- TIMEDELTA).
                              Default is 0seconds. 
     -case CASE_NAME [CASE_NAME2 ...], --case_name CASE_NAME [CASE_NAME ...]
-                             Case nameto prefix the bundle; by default case name
-                             will be selected from BUNDLE.xidv file
+                             Case name to prefix the bundle; by default case name
+                             will be selected from template bundle file
     -outdir OUTPUT_DIRECTORY, --output_directory OUTPUT_DIRECTORY
                              Set the output path to place the output;default is
                              current directory from where the script is run
