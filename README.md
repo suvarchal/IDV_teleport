@@ -5,20 +5,11 @@ Please use latest nightly version of [IDV](http://www.unidata.ucar.edu/software/
 
 Usage:
 
-      usage summary: bundlescript.py [-h] -t TIME -b BUNDLE [BUNDLE ...] [-td TIMEDELTA]
+       bundlescript.py [-h] -t TIME -b BUNDLE [BUNDLE ...] [-td TIMEDELTA]
                        [-bbox NORTH WEST SOUTH EAST]
                        [-case CASE_NAME [CASE_NAME ...]]
                        [-outdir OUTPUT_DIRECTORY] [-d {True,False}]
                        [-purl PUBLISH_URL]
-
-Simplest use case: 
-
-     python bundlescript.py -b templatebundlefile.xidv -t YYYY-MM-DD hh:mm:ss
-
-
-More Help: 
-
-      python bundlescript.py -h
       
 Optional arguments:
 
@@ -35,7 +26,7 @@ Optional arguments:
                              Output bundle will be centered (TIME +- TIMEDELTA).
                              Default is 0seconds. 
     -case CASE_NAME [CASE_NAME2 ...], --case_name CASE_NAME [CASE_NAME ...]
-                             Case name to prefix the bundle; by default case name
+                             Case name to prefix the bundle; by default, the case name
                              will be selected from template bundle file
     -outdir OUTPUT_DIRECTORY, --output_directory OUTPUT_DIRECTORY
                              Set the output path to place the output;default is
@@ -44,5 +35,9 @@ Optional arguments:
                              Debug option; for each time in timefile, IDV session
                              will remain open and MUST be closed manually
     -purl PUBLISH_URL, --publish_url PUBLISH_URL
-                        Publish bundle and image at a RAMADDA server; Currently
+                             Publish bundle and image at a RAMADDA server; Currently
                         not implemented.
+
+Simplest use case: 
+
+     python bundlescript.py -b templatebundlefile.xidv -t YYYY-MM-DD hh:mm:ss
