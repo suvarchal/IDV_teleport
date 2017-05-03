@@ -40,4 +40,4 @@ Optional arguments:
 
 Simplest use case: 
 
-     python bundlescript.py -b templatebundlefile.xidv -t YYYY-MM-DD hh:mm:ss
+     python bundlescript.py -b templatebundlefile.xidv -t YYYY-MM-DD_hh:mm:ss
