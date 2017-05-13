@@ -1,11 +1,11 @@
-# IDV_bundle_composite
+# IDV_teleport
 Script to relocate the space-time bounding box of one or more existing (‘template’) IDV bundles. User specifies -bbox in lat-lon space, and one or a list of temporal ranges. Time ranges are specified as a central time (-t) and temporal half width (-td). The temporal stride is set in the template BUNDLE.xidv, and can only be changed in the IDV GUI. 
 
 Please use latest nightly version of [IDV](http://www.unidata.ucar.edu/software/idv/nightly/)
 
 Usage:
 
-       bundlescript.py [-h] -t TIME -b BUNDLE [BUNDLE ...] [-td TIMEDELTA]
+       idv_teleport.py [-h] -t TIME -b BUNDLE [BUNDLE ...] [-td TIMEDELTA]
                        [-bbox NORTH WEST SOUTH EAST]
                        [-case CASE_NAME [CASE_NAME ...]]
                        [-outdir OUTPUT_DIRECTORY] [-d {True,False}]
@@ -40,4 +40,4 @@ Optional arguments:
 
 Simplest use case: 
 
-     python bundlescript.py -b templatebundlefile.xidv -t YYYY-MM-DD_hh:mm:ss
+     python idv_teleport.py -b templatebundlefile.xidv -t YYYY-MM-DD_hh:mm:ss
