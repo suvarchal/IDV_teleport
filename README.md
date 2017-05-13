@@ -13,10 +13,11 @@ Usage:
       
 Optional arguments:
 
-    -h, --help            show this help message and exit
+    -h, --help               show this help message and exit
     -b BUNDLE.xidv [BUNDLE2.xidv ...], --bundle BUNDLE.xidv [BUNDLE2.xidv ...]
                              IDV Bundle template file (local file or remote URL)
-    -bbox NORTH WEST SOUTH EAST, --boundingbox NORTH WEST SOUTH EAST
+                             Can also be a .zidv file.               
+    -bbox NORTH WEST SOUTH EAST, --boundingbox NORTH WEST SOUTH EAST
                              Set the bounding box of the bundle with boundaries
                              north, west, south, east
     -t TIME, --time TIME  Input central time as YYYY-MM-DD (optionally with hh:mm:ss),
