@@ -39,7 +39,7 @@ def showImgWithFullWindow(width=None,height=None):
                   <pause/>
                   <pause seconds="40"/>
                   <pause/>
-<displayproperties display="class:ucar.unidata.idv.control.ContourPlanViewControl">
+<displayproperties display="class:ucar.unidata.idv.control.ColorPlanViewControl">
 <property name="DisplayAreaSubset" value="true"/>
 </displayproperties>
                   <image file="%s1.png"/>
