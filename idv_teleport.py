@@ -1,11 +1,19 @@
+import argparse
+import os
+import re
+import tempfile
+import sys
+import subprocess
+
+
 def parse_date_time_file(datefile):
 
     datelist = []
-    with open(datefile) as f:
-        for ln in f.readlines():
-            checkline = ln.strip().split('-')
+    with open(datefile) as fil:
+        for line in fil.readlines():
+            checkline = line.strip().split('-')
             assert len(checkline) > 1, "Time specified in input is not in valid format yyyy-mm-dd"
-            datelist.append(ln)
+            datelist.append(line)
     return datelist
 
 
@@ -89,7 +97,7 @@ def parse_date_time(datetimelist, parser):
     match = re.match(r"(\d+)(\w+)", args.timedelta)
     try:
         timedelta, time_str = match.groups()
-        dt = datetime.timedelta(**{time_str: int(timedelta)})
+        dtime = datetime.timedelta(**{time_str: int(timedelta)})
     except:
         parser.print_usage()
         print("Please set -td or --timedelta as 1seconds or 1days....")
@@ -102,13 +110,13 @@ def parse_date_time(datetimelist, parser):
         try:
             if len(time.strip()) > 10:
                 time_c = datetime.datetime(int(time[0:4]), int(time[5:7]), int(time[8:10]),
-                                           int(time[11:13]),int(time[14:16]), int(time[17:19]))
-                time_s = time_c - dt
-                time_e = time_c + dt
+                                           int(time[11:13]), int(time[14:16]), int(time[17:19]))
+                time_s = time_c - dtime
+                time_e = time_c + dtime
             else:
                 time_c = datetime.datetime(int(time[0:4]), int(time[5:7]), int(time[8:10]), 0, 0, 0)
-                time_s = time_c - dt
-                time_e = time_c + dt
+                time_s = time_c - dtime
+                time_e = time_c + dtime
             startdates.append(time_s.strftime('%Y-%m-%d %H:%M:%S'))
             enddates.append(time_e.strftime('%Y-%m-%d %H:%M:%S'))
             centerdates.append(time_c.strftime('%Y-%m-%d-%H-%M-%S'))
@@ -116,88 +124,88 @@ def parse_date_time(datetimelist, parser):
             ignorelist.append(time.strip())
     return startdates, enddates, centerdates, ignorelist
 
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Script to teleport time and space domain of an IDV Bundle.',
+                                     epilog="Simplest use case:python IDV_teleport.py "
+                                            "-t timefile "
+                                            "-b templatebundlefile.xidv")
 
-import argparse
-import os
-import re
-import tempfile
-import sys
-import subprocess
+    parser.add_argument('-b', '--bundle', nargs='+',
+                        help='IDV Bundle template file, local or remote',
+                        required=True)
 
-parser = argparse.ArgumentParser(description='Script to teleport time and space domain of an IDV Bundle.',
-                                 epilog="Simplest use case:python IDV_teleport.py "
-                                        "-t timefile "
-                                        "-b templatebundlefile.xidv")
+    parser.add_argument('-bbox', '--boundingbox', nargs=4, type=float,
+                        help='Set the bounding box of the bundle with boundaries: '
+                             'north, west, south, east',
+                        metavar=("NORTH", "WEST", "SOUTH", "EAST"))
 
-parser.add_argument('-b', '--bundle', nargs='+',
-                    help='IDV Bundle template file, local or remote',
-                    required=True)
+    parser.add_argument('-t', '--time', type=str,
+                        help='Input time as YYYY-MM-DD or a text file with times '
+                             'one per line also optionally with hh:mm:ss',
+                        required=True)
+    parser.add_argument('-td', '--timedelta',
+                        help='Time delta (hald-duration) as Nseconds, Ndays, Nweeks ...;'
+                             ' output bundle times will be central time +- timedelta;'
+                             ' default is 0seconds',
+                        default="0seconds", required=False)
 
-parser.add_argument('-bbox', '--boundingbox', nargs=4, type=float,
-                    help='Set the bounding box of the bundle with boundaries north, west, south, east',
-                    metavar=("NORTH", "WEST", "SOUTH", "EAST"))
-
-parser.add_argument('-t', '--time', type=str,
-                    help='Input time as YYYY-MM-DD or a text file with times '
-                         'one per line also optionally with hh:mm:ss',
-                    required=True)
-parser.add_argument('-td', '--timedelta',
-                    help='Time delta (hald-duration) as Nseconds, Ndays, Nweeks ...;'
-                         ' output bundle times will be central time +- timedelta;'
-                         ' default is 0seconds',
-                    default="0seconds", required=False)
-
-parser.add_argument('-case', '--case_name', type=str, nargs='+',
-                    help='Case name to prefix the bundle; by default case name will be selected from bundle file',
-                    required=False)
-parser.add_argument('-outdir', '--output_directory', type=os.path.isdir,
-                    help='Set the output path to place the output;'
-                         'default is current directory from where the script is run',
-                    required=False)
-parser.add_argument('-d', '--debug', choices=("True", "False"), default="False",
-                    help='Debug option; for each time in timefile IDV session will ONLY close manually',
-                    required=False)
-parser.add_argument('-purl', '--publish_url',
-                    help='Publish bundle and image at a RAMADDA server;Currently not implemented',
-                    required=False)
-args = parser.parse_args()
-try:
-    idv = os.environ['IDV_HOME']
-except:
-    parser.print_usage()
-    print("Please set environment variable IDV_HOME to IDV home directory")
-    sys.exit(2)
-
-# check if datefile is time or file
-if os.path.isfile(args.time):
-    datelist = parse_date_time_file(args.time)
-else:
-    datelist = [str.join(' ', args.time.split('_'))]
-
-startdates, enddates, centerdates, ignorelist = parse_date_time(datelist, parser)
-
-if args.output_directory:
-    output_directory = args.output_directory
-else:
-    output_directory = os.getcwd()
-
-bundle = args.bundle[0]
-for start, end, center in zip(startdates, enddates, centerdates):
-    if args.case_name:
-        case_name = os.path.join(output_directory, args.case_name[0])  # +'_'+center)
-    else:
-        case_name = os.path.join(output_directory, os.path.split(bundle)[-1].split('.')[0] + '_' + center)
-    if args.boundingbox:
-        isl = isl_string(bundle, start, end, case_name, args.boundingbox[0], args.boundingbox[1], args.boundingbox[2],
-                         args.boundingbox[3])
-    else:
-        isl = isl_string(bundle, start, end, case_name)
-
-    wtf = tempfile.NamedTemporaryFile(mode="w+b", suffix=".isl", dir="./")
-    wtf.file.write(isl)
-    wtf.file.close()
+    parser.add_argument('-case', '--case_name', type=str, nargs='+',
+                        help='Case name to prefix the bundle;'
+                             'By default case name will be selected from bundle file',
+                        required=False)
+    parser.add_argument('-outdir', '--output_directory', type=os.path.isdir,
+                        help='Set the output path to place the output;'
+                             'default is current directory from where the script is run',
+                        required=False)
+    parser.add_argument('-d', '--debug', choices=("True", "False"), default="False",
+                        help='Debug option; '
+                             'For each time in timefile IDV session will ONLY close manually',
+                        required=False)
+    parser.add_argument('-purl', '--publish_url',
+                        help='Publish bundle and image at a RAMADDA server;'
+                             'Currently not implemented',
+                        required=False)
+    args = parser.parse_args()
     try:
-        subprocess.call([os.path.join(idv, "runIDV"), "-islinteractive", "-noerrorsingui", wtf.name])
-
+        idv_home = os.environ['IDV_HOME']
     except:
-        pass
+        parser.print_usage()
+        print("Please set environment variable IDV_HOME to IDV home directory")
+        sys.exit(2)
+
+    # check if datefile is time or file
+    if os.path.isfile(args.time):
+        datelist = parse_date_time_file(args.time)
+    else:
+        datelist = [str.join(' ', args.time.split('_'))]
+
+    startdates, enddates, centerdates, ignorelist = parse_date_time(datelist, parser)
+
+    if args.output_directory:
+        output_directory = args.output_directory
+    else:
+        output_directory = os.getcwd()
+
+    bundle_file = args.bundle[0]
+    for start, end, center in zip(startdates, enddates, centerdates):
+        if args.case_name:
+            case_name = os.path.join(output_directory, args.case_name[0])  # +'_'+center)
+        else:
+            case_name = os.path.join(output_directory,
+                                     os.path.split(bundle_file)[-1].split('.')[0] + '_' + center)
+        if args.boundingbox:
+            isl = isl_string(bundle_file, start, end, case_name,
+                             args.boundingbox[0], args.boundingbox[1],
+                             args.boundingbox[2], args.boundingbox[3])
+        else:
+            isl = isl_string(bundle_file, start, end, case_name)
+
+        wtf = tempfile.NamedTemporaryFile(mode="w+b", suffix=".isl", dir="./")
+        wtf.file.write(isl)
+        wtf.file.close()
+        try:
+            subprocess.call([os.path.join(idv_home, "runIDV"), "-islinteractive",
+                             "-noerrorsingui", wtf.name])
+
+        except:
+            pass
