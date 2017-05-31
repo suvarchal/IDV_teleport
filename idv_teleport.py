@@ -4,10 +4,11 @@ import re
 import tempfile
 import sys
 import subprocess
+from distutils import spawn
+from random import randint
 
 
 def parse_date_time_file(datefile):
-
     datelist = []
     with open(datefile) as fil:
         for line in fil.readlines():
@@ -124,6 +125,24 @@ def parse_date_time(datetimelist, parser):
             ignorelist.append(time.strip())
     return startdates, enddates, centerdates, ignorelist
 
+
+def run_xvfb():
+    xvfb_proc = None
+    xvfb_executable = spawn.find_executable('Xvfb')
+    r_int = randint(10, 99)
+    xvfb_executable += ' :' + str(r_int)
+    xvfb_executable += ' -screen 0 1280x1024x24'
+    # print(xvfb_executable)
+    xvfb_proc = subprocess.Popen(xvfb_executable.split())
+    # print(xvfb_proc.pid)
+
+    if not xvfb_proc.poll():
+        os.environ['DISPLAY'] = ':' + str(r_int) + '.0'
+        return xvfb_proc
+    else:
+        return None
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Script to teleport time and space domain of an IDV Bundle.',
                                      epilog="Simplest use case:python IDV_teleport.py "
@@ -173,6 +192,13 @@ if __name__ == '__main__':
         print("Please set environment variable IDV_HOME to IDV home directory")
         sys.exit(2)
 
+    orig_display_id = os.environ['DISPLAY']
+    headless = not orig_display_id
+    xvfb = run_xvfb()
+    if headless and not xvfb:
+        raise Exception('Headless environment detected and Xvfb not working, please check '
+                        'if Xvfb is already running ')
+
     # check if datefile is time or file
     if os.path.isfile(args.time):
         datelist = parse_date_time_file(args.time)
@@ -200,12 +226,16 @@ if __name__ == '__main__':
         else:
             isl = isl_string(bundle_file, start, end, case_name)
 
-        wtf = tempfile.NamedTemporaryFile(mode="w+b", suffix=".isl", dir="./")
+        wtf = tempfile.NamedTemporaryFile(mode="w", suffix=".isl", dir="./")
         wtf.file.write(isl)
         wtf.file.close()
         try:
             subprocess.call([os.path.join(idv_home, "runIDV"), "-islinteractive",
-                            "-noerrorsingui", wtf.name.split('/')[-1]])
+                             "-noerrorsingui", wtf.name.split('/')[-1]])
         except:
 
             pass
+        if not xvfb.poll():
+            xvfb.kill()
+            os.environ['DISPLAY'] = orig_display_id  # imp otherwise headless
+            # will not work next time
