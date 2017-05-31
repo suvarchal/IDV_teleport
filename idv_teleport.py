@@ -186,7 +186,7 @@ if __name__ == '__main__':
     else:
         output_directory = os.getcwd()
 
-    bundle_file = args.bundle[0]
+    bundle_file = '\ '.join(args.bundle)
     for start, end, center in zip(startdates, enddates, centerdates):
         if args.case_name:
             case_name = os.path.join(output_directory, args.case_name[0])  # +'_'+center)
@@ -205,7 +205,7 @@ if __name__ == '__main__':
         wtf.file.close()
         try:
             subprocess.call([os.path.join(idv_home, "runIDV"), "-islinteractive",
-                             "-noerrorsingui", wtf.name])
-
+                            "-noerrorsingui", wtf.name.split('/')[-1]])
         except:
+
             pass
