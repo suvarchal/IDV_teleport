@@ -3,7 +3,7 @@ Script to relocate the space-time bounding box of one or more existing (‘templ
 
 Outputs (3): Thumbnail image; Animation; and Zipped .zidv file containing all data and displays. All are called CASE_NAME.xxx with appropriate xxx suffixes. 
 
-Arguments are used to specify -bbox in lat-lon space, and one or a list of temporal ranges. Time ranges are specified as a middle time of the desried time sequence (-t) plus a half-width of the sequence (-td). The temporal stride must be set in the template BUNDLE.xidv, and can only be changed in the IDV GUI. 
+Arguments are used to specify -bbox in lat-lon space, and one or a list of temporal ranges. Time ranges are specified as a middle time of the desired time sequence (-t) plus a half-width of the sequence (-td). The temporal stride must be set in the template BUNDLE.xidv, and can only be changed in the IDV GUI.
 
 Requirements: Version 5.3u1 from May 2016 or later [IDV](http://www.unidata.ucar.edu/software/idv/nightly/), and any Python. 
 
