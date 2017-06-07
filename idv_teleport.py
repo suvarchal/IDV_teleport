@@ -20,75 +20,128 @@ def parse_date_time_file(datefile):
 
 def isl_string(bundle_file, time_start, time_end, case_name=None,
                ul_lat=None, ul_lon=None, lr_lat=None, lr_lon=None):
-    screencapture = """
-def showImgWithFullWindow(width=None,height=None):
-    from java.util import Base64 ##only in java8
-    from javax.imageio import ImageIO
-    from java.io import ByteArrayOutputStream
+    screencapture = u"""
+def screencapture(width=None,height=None):
     from ucar.unidata.ui.ImageUtils import resize,toBufferedImage
     import java
     import java.awt.Robot as Robot
     import java.awt.Rectangle as Rectangle
     import java.awt.Toolkit as Toolkit
     from ucar.unidata.util import Misc
-    from ucar.unidata.ui import ImageUtils
+    from java.awt import Point
+    from java.awt import Toolkit
+    from java.awt import GraphicsEnvironment
+
     VM=idv.getViewManager()
-    myframe=VM.getDisplayWindow().getComponent()
-    robotx = Robot(myframe.getGraphicsConfiguration().getDevice())
-    VM.toFront();
-    robotx.delay(250)
-    #Misc.sleep(350)
-    #pause()
-    img=robotx.createScreenCapture(Rectangle( myframe.getX(),myframe.getY(),myframe.getWidth(),myframe.getHeight()))
+    VMC=VM.getContents()
+    VMCC=VMC.getComponent(1) # the view and legend ; 0 is left most part of view window with controls for perspective views
+
+    gc= VMCC.getGraphicsConfiguration()
+
+    loc = VMCC.getLocationOnScreen()
+    siz = VMCC.getSize()
+
+    # could also capture window by using window
+    # DW=VM.getDisplayWindow()
+    # AW=DW.getActiveWindow()
+    # active window can be made fullscreen
+    # gcd=gcd.setFullScreenWindow(AW.getWindow()) #gcd=graphic control device
+    # quality can be improved by setting full screen or unlimitedly
+    # on virtual screens by setting big screen size
+    loc.x -= gc.getBounds().x
+    loc.y -= gc.getBounds().y
+
+
+    robotx=Robot() #gc.getDevice())
+
+    #VM.toFront()
+
+    W=VM.getDisplayWindow().getActiveWindow().getWindow()
+    W.setAlwaysOnTop(True)
+    Misc.sleep(150)
+    img=robotx.createScreenCapture(Rectangle(loc.x, loc.y,siz.width, siz.height))
+    W.setAlwaysOnTop(False)
+
     if width != None and height != None:
         img=toBufferedImage(resize(img,width,height))
-    ImageUtils.writeImageToFile(img,'%s')""" % (case_name + ".png")
+    return img
+
+def screen_image(width=None,height=None):
+    from ucar.unidata.ui import ImageUtils
+    from threading import Lock
+    VM=idv.getViewManager()
+    anim=VM.getAnimation()
+    anim.setCurrent(len(VM.getAnimationTimes())/2)
+    lock=Lock()
+    with lock:
+        img = screencapture(width,height)
+    ImageUtils.writeImageToFile(img,'{0:s}'+'.png')
+
+def screen_animation(width=None,height=None):
+    from ucar.unidata.ui import AnimatedGifEncoder
+    from ij import ImagePlus
+    from threading import Lock
+    VM=idv.getViewManager()
+    e=AnimatedGifEncoder()
+    e.start('{0:s}'+'.gif')
+    anim=VM.getAnimation()
+    VM.getAnimationWidget().gotoBeginning()
+    for t in range(len(VM.getAnimationTimes())):
+        lock=Lock()
+        anim.setCurrent(t)
+        with lock:
+            data=screencapture()
+        e.addFrame(ImagePlus(str(t),data))
+    """.format(case_name)
     if not ul_lat and not ul_lon and not lr_lat and not lr_lon:
-        xidv_string = """<isl>
-                  <bundle file="%s" timedriverstart="%s" timedriverend="%s" />
+        xidv_string = u"""<isl>
+                  <bundle file="{0:s}" timedriverstart="{1:s}" timedriverend="{2:s}" />
                   <pause/>
                   <pause seconds="40"/>
                   <pause/>
 <displayproperties display="class:ucar.unidata.idv.control.ColorPlanViewControl">
 <property name="DisplayAreaSubset" value="true"/>
 </displayproperties>
-                  <image file="%s1.png"/>
-                  <movie file="%s.gif"/>
-                  <save file="%s.zidv"/>
+                  <image file="{3:s}1.png"/>
+                  <movie file="{4:s}.gif"/>
+                  <save file="{5:s}.zidv"/>
+                  <pause seconds="60"/>
                   <pause/>
                   <jython><![CDATA[
-                  %s
+                  {6:s}
                   ]]>
-                  </jython> 
+                  </jython>
                   <pause/>
-                  <jython code="showImgWithFullWindow()"/>
-                  <pause/>
+                  <jython code="idv.waitUntilDisplaysAreDone()"/>
+                  <jython code="screen_image()"/>
+                  <jython code="screen_animation()"/>
                   <jython code="exit()"/>
-                  </isl>""" % (bundle_file, time_start, time_end, case_name,
-                               case_name, case_name, screencapture)
+                  </isl>""".format(bundle_file, time_start, time_end, case_name,
+                                   case_name, case_name, screencapture)
     else:
-        xidv_string = """<isl>
-                  <bundle file="%s" timedriverstart="%s" timedriverend="%s" bbox="%s,%s,%s,%s"/>
+        xidv_string = u"""<isl>
+                  <bundle file="{0:s}" timedriverstart="{1:s}" timedriverend="{2:s}" bbox="{3:s},{4:s},{5:s},{6:s}"/>
                   <pause/>
                   <pause seconds="40"/>
                   <pause/>
 <displayproperties display="class:ucar.unidata.idv.control.ColorPlanViewControl">
 <property name="DisplayAreaSubset" value="true"/>
 </displayproperties>
-                  <image file="%s1.png"/>
-                  <movie file="%s.gif"/>
-                  <save file="%s.zidv"/>
+                  <image file="{7:s}1.png"/>
+                  <movie file="{8:s}.gif"/>
+                  <save file="{9:s}.zidv"/>
+                  <pause seconds="60"/>
                   <pause/>
+                  <jython code="idv.waitUntilDisplaysAreDone()"/>
                   <jython><![CDATA[
-                  %s
+                  {10:s}
                   ]]>
-                  </jython> 
-                  <pause/>
-                  <jython code="showImgWithFullWindow()"/>
-                  <pause/>
+                  </jython>
+                  <jython code="screen_image()"/>
+                  <jython code="screen_animation()"/>
                   <jython code="exit()"/>
-                  </isl>""" % (bundle_file, time_start, time_end, ul_lat, ul_lon, lr_lat,
-                               lr_lon, case_name, case_name, case_name, screencapture)
+                  </isl>""".format(bundle_file, time_start, time_end, str(ul_lat), str(ul_lon), str(lr_lat),
+                                   str(lr_lon), case_name, case_name, case_name, screencapture)
     return xidv_string
 
 
@@ -131,7 +184,7 @@ def run_xvfb():
     xvfb_executable = spawn.find_executable('Xvfb')
     r_int = randint(10, 99)
     xvfb_executable += ' :' + str(r_int)
-    xvfb_executable += ' -screen 0 1280x1024x24'
+    xvfb_executable += ' -screen 0 1800x1600x24'
     # print(xvfb_executable)
     xvfb_proc = subprocess.Popen(xvfb_executable.split())
     # print(xvfb_proc.pid)
