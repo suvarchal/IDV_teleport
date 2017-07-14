@@ -37,12 +37,21 @@ Optional arguments:
 	-outdir OUTPUT_DIRECTORY, --output_directory OUTPUT_DIRECTORY
                              Set the output path to place the output;default is
                              current directory from where the script is run
+	-pubid PUBLISH_ID, --publish_id PUBLISH_ID
+                        Publish bundle and image at a RAMADDA server;argument
+                        shoud be ramadda entryid wherethe user from
+                        environment variable RAMADDA_USER and password from
+                        RAMADDA_PASSWORD has permissionsto write files
+        -nohead {True,False}, --headless {True,False}
+                        Option to use headless display environment or not to
+                        use headless environment `Xvfb` needs to be
+                        installedand be present in the PATH.
+			Default is set to True for convinience, When True and 
+			Xvfb is not on path it tries to run IDV with default local display.
 	-d {True,False}, --debug {True,False}
-                             Debug option; for each time in timefile, IDV session
-                             will remain open and MUST be closed manually
-	-purl PUBLISH_URL, --publish_url PUBLISH_URL
-                             Publish bundle and image at a RAMADDA server; Currently
-                        not implemented.
+                        Debug option; for each time in timefile, IDV session
+                        will remain open and MUST be closed manually
+
 
 Simplest use case: 
 
