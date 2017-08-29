@@ -339,7 +339,7 @@ if __name__ == '__main__':
                              'and password from RAMADDA_PASSWORD has permissions'
                              'to write files',
                         required=False)
-    parser.add_argument('-nohead', '--headless', choices=("True", "False"), default="True",
+    parser.add_argument('-nohead', '--headless', choices=("True", "False"), default="False",
                         help='Option to use headless display environment or not'
                              'to use headless environment `Xvfb` needs to be installed'
                              'and be present in the PATH.'
