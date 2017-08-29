@@ -98,20 +98,16 @@ def screencapture(width=None,height=None):
 
 def screen_image(width=None,height=None):
     from ucar.unidata.ui import ImageUtils
-    from threading import Lock
     VM=idv.getViewManager()
     VM.toFront()
     anim=VM.getAnimation()
     anim.setCurrent(len(VM.getAnimationTimes())/2)
-    lock=Lock()
-    with lock:
-        img = screencapture(width,height)
+    img = screencapture(width,height)
     ImageUtils.writeImageToFile(img,'{0:s}'+'.png',1.0)
 
 def screen_animation(width=None,height=None):
     from ucar.unidata.ui import AnimatedGifEncoder
     from ij import ImagePlus
-    from threading import Lock
     VM=idv.getViewManager()
     VM.toFront()
     e=AnimatedGifEncoder()
@@ -120,10 +116,9 @@ def screen_animation(width=None,height=None):
     anim=VM.getAnimation()
     VM.getAnimationWidget().gotoBeginning()
     for t in range(len(VM.getAnimationTimes())):
-        lock=Lock()
         anim.setCurrent(t)
-        with lock:
-            data=screencapture()
+
+        data=screencapture()
         e.addFrame(ImagePlus(str(t),data))
     """.format(case_name)  # ideally make them part of function call
     if not ul_lat and not ul_lon and not lr_lat and not lr_lon:
