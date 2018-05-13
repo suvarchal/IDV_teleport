@@ -146,6 +146,7 @@ def screen_animation(width=None,height=None):
         xidv_string = u"""<isl>
                   <bundle file="{0:s}" timedriverstart="{1:s}" timedriverend="{2:s}" bbox="{3:s},{4:s},{5:s},{6:s}"/>
                   <pause seconds="40"/>
+                  <jython code="idv.waitUntilDisplaysAreDone()"/>
 <displayproperties display="class:ucar.unidata.idv.control.ColorPlanViewControl">
 <property name="DisplayAreaSubset" value="true"/>
 </displayproperties>
@@ -294,12 +295,20 @@ def publish(parentid, case_names):
 
 
 if __name__ == '__main__':
+    class CustomFormatter(argparse.ArgumentDefaultsHelpFormatter, argparse.RawDescriptionHelpFormatter):
+          """just to format description/epilog and arguments nicely"""
+          pass
+
+    examples = '''
+Some examples: 
+To teleport a bundle centered at certain time YYYY-MM-DD_hh:mm:ss and interval of a +- 1hour
+    idv_teleport -t YYYY-MM-DD_hh:mm:ss -td 1hours -b templatebundlefile.xidv
+To teleport a bundle around a latitude, longitude bounding box specify corners in degrees as
+    idv_teleport -t YYYY-MM-DD_hh:mm:ss -td 1hours -bbox northlat westlon southlat eastlon -b templatebundleurl'''
+    
     parser = argparse.ArgumentParser(description='Script to teleport time and space domain '
                                                  'of an IDV Bundle.',
-                                     epilog="Simplest use case:python IDV_teleport.py "
-                                            "-t timefile "
-                                            "-b templatebundlefile.xidv")
-
+                                     epilog=examples,formatter_class=CustomFormatter)
     parser.add_argument('-b', '--bundle', nargs='+',
                         help='IDV Bundle template file, local or remote',
                         required=True)
@@ -314,7 +323,7 @@ if __name__ == '__main__':
                              'one per line also optionally with hh:mm:ss',
                         required=True)
     parser.add_argument('-td', '--timedelta',
-                        help='Time delta (hald-duration) as Nseconds, Ndays, Nweeks ...;'
+                        help='Time delta (duration) as Nseconds, Ndays, Nweeks ...;'
                              ' output bundle times will be central time +- timedelta;'
                              ' default is 0seconds',
                         default="0seconds", required=False)
@@ -323,7 +332,7 @@ if __name__ == '__main__':
                         help='Case name to prefix the bundle;'
                              'By default case name will be selected from bundle file',
                         required=False)
-    parser.add_argument('-outdir', '--output_directory', type=os.path.isdir,
+    parser.add_argument('-outdir', '--output_directory',
                         help='Set the output path to place the output;'
                              'default is current directory from where the script is run',
                         required=False)
@@ -372,7 +381,9 @@ if __name__ == '__main__':
     startdates, enddates, centerdates, ignorelist = parse_date_time(datelist, pargs)
 
     if pargs.output_directory:
-        output_directory = pargs.output_directory
+        output_directory = pargs.output_directory 
+        if not os.path.isdir(output_directory):
+            os.mkdir(output_directory)
     else:
         output_directory = os.getcwd()
 
