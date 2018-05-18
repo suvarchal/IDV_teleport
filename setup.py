@@ -7,7 +7,7 @@ def read(fname):
 
 setup( 
     name='idv_teleport',
-    version='1.5',
+    version='1.6',
     url="https://github.com/suvarchal/IDV_teleport",
     author='Suvarchal',
     author_email='suvarchal.kumar@gmail.com',

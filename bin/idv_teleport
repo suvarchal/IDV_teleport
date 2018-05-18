@@ -379,7 +379,11 @@ To teleport a bundle around a latitude, longitude bounding box specify corners i
     xvfb = None
 
     if headless:
-        orig_display_id = os.environ['DISPLAY']
+        try:
+            orig_display_id = os.environ['DISPLAY']
+        except KeyError:
+            orig_display_id = None
+            
         xvfb = run_xvfb()  # changes Display env variable
         if not xvfb and not orig_display_id:
             raise Exception('Headless server environment detected and Xvfb not working,'
