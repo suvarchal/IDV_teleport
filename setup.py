@@ -7,20 +7,19 @@ def read(fname):
 
 setup( 
     name='idv_teleport',
-    version='1.2',
+    version='1.5',
     url="https://github.com/suvarchal/IDV_teleport",
     author='Suvarchal',
     author_email='suvarchal.kumar@gmail.com',
     license="MIT",
-    description="IDV scripts to teleport bundles and publish to ramadda",
+    description="IDV scripts to teleport bundles",
     #long_description=read('README.md'),
-    scripts=['bin/idv_teleport','bin/ramadda_publish'],
+    scripts=['bin/idv_teleport'],
     classifiers=[
     'Development Status :: 4 - Beta',
 
     'Topic :: Software Development :: Build Tools',
     'License :: OSI Approved :: MIT License',
-    'Framework :: IPython',
     'Programming Language :: Python :: 2',
     'Programming Language :: Python :: 2.7',
     'Programming Language :: Python :: 3',
