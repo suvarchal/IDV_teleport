@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Install &mdash; IDV_teleport 1.6.0 documentation</title>
+  <title>Installation &mdash; IDV_teleport 1.6.0 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="next" title="Getting Started" href="started.html" />
     <link rel="prev" title="IDV_teleport" href="index.html" /> 
 
   
@@ -83,8 +83,13 @@
               
             
             
-              <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Install</a></li>
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 </ul>
 
@@ -131,7 +136,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Install</li>
+      <li>Installation</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -150,8 +155,29 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="install">
-<h1>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>The easiest way to install <a class="reference external" href="https://suvarchal.github.io/IDV_teleport">IDV_teleport</a> is:</p>
+<blockquote>
+<div><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">idv_teleport</span></code></div></blockquote>
+<p>To update an existing installation use:</p>
+<blockquote>
+<div><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--upgrade</span> <span class="pre">idv_teleport</span></code></div></blockquote>
+<p><a class="reference external" href="https://suvarchal.github.io/IDV_teleport">IDV_teleport</a> is currently untested in Windows based operating systems.</p>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://www.unidata.ucar.edu/software/idv">IDV</a> software is needed. To let the utility know the installation of <a class="reference external" href="https://www.unidata.ucar.edu/software/idv">IDV</a> in the current environment, environment variable
+IDV_HOME needs to be set to <a class="reference external" href="https://www.unidata.ucar.edu/software/idv">IDV</a> installation directory.</p>
+<p>For instance in</p>
+<p>BASH environment:</p>
+<blockquote>
+<div><cite>export IDV_HOME=/path/to/IDV_5.4u1</cite></div></blockquote>
+<p>CSH environment:</p>
+<blockquote>
+<div><cite>setenv IDV_HOME /path/to/IDV_5.4u1</cite></div></blockquote>
+<p>for MacOS users the path is typically in <cite>/Applications/IDV_5.4u1</cite></p>
+<p><a class="reference external" href="https://suvarchal.github.io/IDV_teleport">IDV_teleport</a> can run in headless mode. To enable headless mode a virtual X server utility <a class="reference external" href="https://www.x.org/releases/X11R7.6/doc/man/man1/Xvfb.1.xhtml">Xvfb</a> is needed.</p>
+</div>
 </div>
 
 
@@ -162,7 +188,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="started.html" class="btn btn-neutral float-right" title="Getting Started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="index.html" class="btn btn-neutral" title="IDV_teleport" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
