@@ -3,7 +3,7 @@ Demos
 ===============
 Quick Links to teleported bundles produced using the tool.
 
-`Gulf of Mexico Shredding events <http://earthcube.ccs.miami.edu:8080/repository/entry/show?entryid=31437fa8-3dcb-4770-a9f2-e6595b89fd7e>`_
+`Gulf of Mexico loop current eddy shedding events <http://earthcube.ccs.miami.edu:8080/repository/entry/show?entryid=31437fa8-3dcb-4770-a9f2-e6595b89fd7e>`_ made by a `Script <http://earthcube.ccs.miami.edu:8080/repository/entry/show?entryid=8958e4da-8a51-4f88-8ac6-cbf797d7cb6f>`_ with a list of dates+locations, and a `template IDV bundle <http://earthcube.ccs.miami.edu:8080/repository/entry/show?entryid=0dcfbd52-76b5-44aa-85cf-7d79efad7b62>`_
 
 `Storm Cases from Wikipedia <https://weather.rsmas.miami.edu/repository/entry/show?entryid=54211aad-6dff-4a37-a642-b6b9c6365e09>`_
 
