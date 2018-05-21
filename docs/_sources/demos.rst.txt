@@ -3,7 +3,7 @@ Demos
 ===============
 Quick Links to teleported bundles produced using the tool.
 
-`Gulf of Mexico Shredding events <http://weather.rsmas.miami.edu/repository/entry/show?entryid=4370a4c4-0a80-4469-ba04-8861b462aad3>`_
+`Gulf of Mexico Shredding events <http://earthcube.ccs.miami.edu:8080/repository/entry/show?entryid=31437fa8-3dcb-4770-a9f2-e6595b89fd7e>`_
 
 `Storm Cases from Wikipedia <https://weather.rsmas.miami.edu/repository/entry/show?entryid=54211aad-6dff-4a37-a642-b6b9c6365e09>`_
 

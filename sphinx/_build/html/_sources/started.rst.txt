@@ -7,7 +7,7 @@ Installation_ can be checked using by executing the command::
 The above command shows list of options that can be used.
 
 
-As as example download this fairly complex sample bundle `HYCOM_3dvort_template.xidv <http://earthcube.ccs.miami.edu:8080/repository/entry/get?entryid=16d9e3de-3f61-451c-bf63-790a35784c25>`_. 
+As as example download this fairly complex sample bundle `HYCOM_3dvort_template.xidv <http://earthcube.ccs.miami.edu:8080/repository/entry/get?entryid=0dcfbd52-76b5-44aa-85cf-7d79efad7b62>`_. 
 
 Shell
 ~~~~~~~~~~~~~~~~
