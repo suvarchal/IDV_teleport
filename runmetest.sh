@@ -5,5 +5,9 @@ echo `pwd`
 printf 'o\n\n1\n'`pwd`'/IDV\n'|./idv.sh
 wkdir=`echo pwd`
 export IDV_HOME=${wrkdir}/IDV
+mkdir -p ${wrkdir}/.java/.systemPrefs
+mkdir ${wrkdir}/.java/.userPrefs
+chmod -R 755 ${wrkdir}/.java
+export JAVA_OPTS="-Djava.util.prefs.systemRoot="${wrkdir}"/.java -Djava.util.prefs.userRoot="${wrkdir}"/.java/.userPrefs"
 cd test
 idv_teleport -b NOAA_sst.xidv -t 2011-01-01
