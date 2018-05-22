@@ -3,4 +3,5 @@ curl -s ftp://ftp.unidata.ucar.edu/pub/idv/nightly_idv_5.5/idv_5_5_linux64_insta
 chmod +x idv.sh
 echo `pwd`
 printf 'o\n\n1\n'`pwd`'/IDV\n'|./idv.sh
-./IDV/runIDV.sh
+echo `ls /home/travis/IDV_5.5`
+echo `ls`
