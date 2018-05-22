@@ -9,5 +9,10 @@ script:
  - cd sphinx
  - make html
 deploy:
+ provider: pages
+ skip_cleanup: true
  local_dir: ./sphinx/_build/html
  github_token: $GITHUB_TOKEN
+committer-from-gh: true
+target_branch: gh-pages
+
