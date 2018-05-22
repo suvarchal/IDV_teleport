@@ -1,0 +1,18 @@
+language: python
+python:
+'2.7'
+'3.5'
+'3.6'
+before_install:
+- travis_retry pip install sphinx
+- travis_retry pip install sphinx_rtd_theme
+script:
+- python setup.py install
+ 
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+  keep-history: true
+  on:
+    branch: master
