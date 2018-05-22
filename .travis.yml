@@ -7,7 +7,6 @@ before_install:
  - travis_retry pip install sphinx
  - travis_retry pip install sphinx_rtd_theme
 script:
- - python 
  - python setup.py install
 deploy:
  local_dir: sphinx/_build/html
