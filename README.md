@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/suvarchal/IDV_teleport.svg?branch=master)](https://travis-ci.com/suvarchal/IDV_teleport)
 # IDV_teleport
 Script to relocate the space-time bounding box of one or more existing (‘template’) IDV bundles and then execute runIDV to fetch the data and write ouputs.
 
