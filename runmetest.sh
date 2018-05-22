@@ -12,4 +12,4 @@ export JAVA_OPTS="-Djava.util.prefs.systemRoot="${wrkdir}"/.java -Djava.util.pre
 #export JAVA_OPTS="-Djava.util.prefs.systemRoot="`pwd`"/.java -Djava.util.prefs.userRoot="`pwd`"/.java/.userPrefs"
 cd test
 echo $HOME
-idv_teleport -b NOAA_sst.xidv -t 2011-01-01 -nohead True
+idv_teleport -b NOAA_sst.xidv -t 2011-01-01 -td 1days -nohead True
