@@ -382,7 +382,7 @@ To teleport a bundle around a latitude, longitude bounding box specify corners i
         try:
             orig_display_id = os.environ['DISPLAY']
         except KeyError:
-            orig_display_id = None
+            orig_display_id = ":0.0" #None
             
         xvfb = run_xvfb()  # changes Display env variable
         if not xvfb and not orig_display_id:
