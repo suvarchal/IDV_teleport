@@ -13,3 +13,5 @@ export JAVA_OPTS="-Djava.util.prefs.systemRoot="${wrkdir}"/.java -Djava.util.pre
 cd test
 echo $HOME
 idv_teleport -b NOAA_sst.xidv -t 2011-01-01 -td 1days -nohead True
+cp *.gif ../docs/
+cp *.png ../docs/
