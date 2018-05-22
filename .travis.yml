@@ -1,13 +1,13 @@
 language: python
 python:
-- '2.7'
-- '3.5'
 - '3.6'
 before_install:
  - travis_retry pip install sphinx
  - travis_retry pip install sphinx_rtd_theme
 script:
  - python setup.py install
+ - cd sphinx
+ - make html
 deploy:
- local_dir: sphinx/_build/html
+ local_dir: ./sphinx/_build/html
  github_token: $GITHUB_TOKEN
