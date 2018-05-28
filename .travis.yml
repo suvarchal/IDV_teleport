@@ -1,5 +1,12 @@
 sudo: true
 language: python
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+      - openjdk-7-jdk
 python:
 - '3.6'
 before_install:
