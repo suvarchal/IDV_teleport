@@ -1,19 +1,18 @@
+from codecs import open
 from setuptools import setup
 import os
 
-def read(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
- 
 
 setup( 
     name='idv_teleport',
-    version='1.6',
+    version='1.70',
     url="https://github.com/suvarchal/IDV_teleport",
     author='Suvarchal',
     author_email='suvarchal.kumar@gmail.com',
     license="MIT",
     description="IDV scripts to teleport bundles",
-    #long_description=read('README.md'),
+    long_description_content_type='text/markdown',
+    long_description=open('README.md').read(),
     scripts=['bin/idv_teleport'],
     classifiers=[
     'Development Status :: 4 - Beta',
