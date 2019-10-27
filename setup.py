@@ -13,6 +13,7 @@ setup(
     description="IDV scripts to teleport bundles",
     long_description_content_type='text/markdown',
     long_description=open('README.md').read(),
+    install_requires=['requests'],
     scripts=['bin/idv_teleport'],
     classifiers=[
     'Development Status :: 4 - Beta',
